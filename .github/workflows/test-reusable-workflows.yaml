@@ -1,0 +1,7 @@
+name: Test reusable workflows
+
+on: [workflow_dispatch]
+
+jobs:
+  test-release-workflow:
+    uses: remla23-team5/cicd/.github/workflows/release.yaml@main
