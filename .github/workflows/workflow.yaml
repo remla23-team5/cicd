@@ -9,4 +9,4 @@ on:
 
 jobs:
   call-semver:
-    uses: remla23-team5/cicd/.github/workflows/reuseable-semver.yaml@main
+    uses: remla23-team5/cicd/.github/workflows/reuseable-semver.yaml@v0.0.1
