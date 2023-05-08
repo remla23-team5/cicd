@@ -28,7 +28,8 @@ jobs:
         run: |
           echo "[PWD]: $(pwd)"
           echo "[TREE]: $(tree)"
-          echo "[LS]: $(ls -al)"
+          echo "[LS]: $(ls -al ./../../)"
+          echo "[LS]: $(ls -al ./../)"
 
 
       - name: build-with-maven
