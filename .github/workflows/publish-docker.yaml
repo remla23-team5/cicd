@@ -12,10 +12,6 @@ name: Create and publish a Docker image
 on: 
   workflow_call:
     inputs:
-      #   version:
-      #     description: 'Semantic version of the Docker image'
-      #     required: true
-      #     type: string
       image_name:
         description: 'Name of the Docker image to build and publish'
         required: true
@@ -44,24 +40,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-            # - name: Extract metadata (tags, labels) for Docker
-            #   id: meta
-            #   uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-            #   with:
-            #     images: ${{ env.REGISTRY }}/${{ inputs.image_name }}
-            #     tags: |
-            #       type=semver,pattern={{version}},value=${{ inputs.version }}
-            #       type=ref,event=branch
-
-      - name: echo
+      - name: SemVer
         run: |
-          echo "[outputs]: ${{ steps.meta.outputs }}"
-          echo "[tags]: ${{ steps.meta.outputs.tags }}"
-          echo "[labels]: ${{ steps.meta.outputs.labels }}"
-          echo "[latest tag?]: $(git describe --abbrev=0 --tags)"
-          echo "[test other tag]: $(git describe --tags $(git rev-list --tags --max-count=1))"
           echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1))"
-          echo "[echo inpit]: ${{ inputs.version }}"
           echo "GHCR_DOCKER_TAG=${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1))" >> "$GITHUB_ENV"
           echo "[env var]: ${{ env.GHCR_DOCKER_TAG }}"
 
