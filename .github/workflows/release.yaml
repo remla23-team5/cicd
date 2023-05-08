@@ -1,11 +1,11 @@
 name: Increment version and create release
 
-on: 
+on:
+  push:
+    tags:
+    - '*' 
   workflow_call:
-    outputs:
-      version_tag: 
-        description: The version tag of the created release
-        value: ${{ jobs.release.steps.versioning.outputs.version_tag }}
+
 
 jobs:
   release:
