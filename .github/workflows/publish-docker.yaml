@@ -63,9 +63,11 @@ jobs:
           echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --t    ags --max-count=1))"
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4.0.0 
+        uses: docker/build-push-action@v4.0.0
+        env:
+          GHCR_DOCKER_TAG: ${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1))
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1))
+          tags: ${{ GHCR_DOCKER_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
