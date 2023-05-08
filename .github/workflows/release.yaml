@@ -1,6 +1,10 @@
 name: Increment version and create release
 
-on: workflow_call
+on: 
+  workflow_call:
+    outputs:
+      description: The version tag of the created release
+      version_tag: ${{ jobs.release.steps.versioning.outputs.version_tag }}}
 
 jobs:
   release:
