@@ -12,10 +12,10 @@ name: Create and publish a Docker image
 on: 
   workflow_call:
     inputs:
-      version:
-        description: 'Semantic version of the Docker image'
-        required: true
-        type: string
+      #   version:
+      #     description: 'Semantic version of the Docker image'
+      #     required: true
+      #     type: string
       image_name:
         description: 'Name of the Docker image to build and publish'
         required: true
