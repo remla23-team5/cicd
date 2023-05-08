@@ -14,5 +14,11 @@ jobs:
           java-version: '19'
           distribution: 'temurin'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots clean package
+        run: mvn --batch-mode --update-snapshots -s $GITHUB_WORKSPACE/.github/workflows/maven.xml clean package -DskipTests
+        env:
+          USERNAME: ${{ env.GITHUB_ACTOR }}
+          PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+
