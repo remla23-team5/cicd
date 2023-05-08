@@ -58,8 +58,8 @@ jobs:
           echo "[outputs]: ${{ steps.meta.outputs }}"
           echo "[tags]: ${{ steps.meta.outputs.tags }}"
           echo "[labels]: ${{ steps.meta.outputs.labels }}"
-          echo "[latest tag?]: git describe --abbrev=0 --tags"
-          echo "[test other tag]: git describe --tags $(git rev-list --tags --max-count=1)"
+          echo "[latest tag?]: $(git describe --abbrev=0 --tags)"
+          echo "[test other tag]: $(git describe --tags $(git rev-list --tags --max-count=1))"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0 
