@@ -44,14 +44,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        with:
-          images: ${{ env.REGISTRY }}/${{ inputs.image_name }}
-          tags: |
-            type=semver,pattern={{version}},value=${{ inputs.version }}
-            type=ref,event=branch
+            # - name: Extract metadata (tags, labels) for Docker
+            #   id: meta
+            #   uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+            #   with:
+            #     images: ${{ env.REGISTRY }}/${{ inputs.image_name }}
+            #     tags: |
+            #       type=semver,pattern={{version}},value=${{ inputs.version }}
+            #       type=ref,event=branch
 
       - name: echo
         run: |
@@ -60,11 +60,12 @@ jobs:
           echo "[labels]: ${{ steps.meta.outputs.labels }}"
           echo "[latest tag?]: $(git describe --abbrev=0 --tags)"
           echo "[test other tag]: $(git describe --tags $(git rev-list --tags --max-count=1))"
+          echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --t    ags --max-count=1))"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0 
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1))
           labels: ${{ steps.meta.outputs.labels }}
