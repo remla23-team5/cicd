@@ -31,5 +31,5 @@ jobs:
           cd main
           mvn --batch-mode --update-snapshots -s ./../cicd/.github/workflows/maven.xml clean package -DskipTests
         env:
-          USERNAME: ${{ env.actor }}
+          USERNAME: ${{ github.actor }}
           PASSWORD: ${{ secrets.GITHUB_TOKEN }}
