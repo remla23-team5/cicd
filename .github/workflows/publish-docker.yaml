@@ -62,7 +62,7 @@ jobs:
           echo "[test other tag]: $(git describe --tags $(git rev-list --tags --max-count=1))"
           echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1))"
           echo "[echo inpit]: ${{ inputs.version }}"
-          echo "{GHCR_DOCKER_TAG}=${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1)" >> "$GITHUB_ENV"
+          echo "GHCR_DOCKER_TAG=${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1)" >> "$GITHUB_ENV"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0
