@@ -12,7 +12,7 @@ name: Create and publish a Docker image
 on: 
   workflow_call:
     inputs:
-      image_name:
+      IMAGE_NAME:
         description: 'Name of the Docker image to build and publish'
         required: true
         type: string
@@ -42,8 +42,8 @@ jobs:
 
       - name: SemVer
         run: |
-          echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1))"
-          echo "GHCR_DOCKER_TAG=${{ env.REGISTRY }}/${{ inputs.image_name }}:$(git describe --tags $(git rev-list --tags --max-count=1))" >> "$GITHUB_ENV"
+          echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.IMAGE_NAME }}:$(git describe --tags $(git rev-list --tags --max-count=1))"
+          echo "GHCR_DOCKER_TAG=${{ env.REGISTRY }}/${{ inputs.IMAGE_NAME }}:$(git describe --tags $(git rev-list --tags --max-count=1))" >> "$GITHUB_ENV"
           echo "[env var]: ${{ env.GHCR_DOCKER_TAG }}"
 
       - name: Build and push Docker image
@@ -51,5 +51,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.GHCR_DOCKER_TAG }}
+          tags: ${{ env.REGISTRY }}/${{ inputs.IMAGE_NAME }}:$(git describe --tags $(git rev-list --tags --max-count=1)) #${{ env.GHCR_DOCKER_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
