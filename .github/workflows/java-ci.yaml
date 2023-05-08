@@ -24,6 +24,13 @@ jobs:
           repository: remla23-team5/cicd
           path: cicd
 
+      - name: echo
+        run: |
+          echo "[PWD]: $(pwd)"
+          echo "[TREE]: $(tree)"
+          echo "[LS]: $(ls -al)"
+
+
       - name: build-with-maven
         run: mvn --batch-mode --update-snapshots -s ./cicd/.github/workflows/maven.xml clean package -DskipTests
         env:
