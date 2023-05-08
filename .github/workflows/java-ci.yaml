@@ -24,21 +24,12 @@ jobs:
         with:
           repository: remla23-team5/cicd
           path: cicd
-          fetch-depth: 0
-
-      - name: echo
-        run: |
-          echo "[PWD]: $(pwd)"
-          echo "[TREE]: $(tree)"
-          echo "[LS]: $(ls -al ./../../)"
-          echo "[LS]: $(ls -al ./../)"
-          echo "[LS]: $(ls -al)"
-
+            #    fetch-depth: 0
 
       - name: build-with-maven
         run: |
           cd main
           mvn --batch-mode --update-snapshots -s ./../cicd/.github/workflows/maven.xml clean package -DskipTests
         env:
-          USERNAME: ${{ env.GITHUB_ACTOR }}
+          USERNAME: ${{ env.actor }}
           PASSWORD: ${{ secrets.GITHUB_TOKEN }}
