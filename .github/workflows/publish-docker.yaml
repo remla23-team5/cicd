@@ -12,6 +12,10 @@ name: Create and publish a Docker image
 on: 
   workflow_call:
     inputs:
+      version:
+        description: 'Semantic version of the Docker image'
+        required: true
+        type: string
       image_name:
         description: 'Name of the Docker image to build and publish'
         required: true
@@ -44,7 +48,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ inputs.image_name }}
           tags: |
-            type=semver,pattern={{version}}
+            type=semver,pattern={{version}},value=${{ inputs.version }}
+            type=ref,event=branch
 
       - name: Build and push Docker image
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
