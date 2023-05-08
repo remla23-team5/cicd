@@ -34,6 +34,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -51,8 +53,16 @@ jobs:
             type=semver,pattern={{version}},value=${{ inputs.version }}
             type=ref,event=branch
 
+      - name: echo
+        run: |
+          echo "[outputs]: ${{ steps.meta.outputs }}"
+          echo "[tags]: ${{ steps.meta.outputs.tags }}"
+          echo "[labels]: ${{ steps.meta.outputs.labels }}"
+          echo "[latest tag?]: git describe --abbrev=0 --tags"
+          echo "[test other tag]: git describe --tags $(git rev-list --tags --max-count=1)"
+
       - name: Build and push Docker image
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        uses: docker/build-push-action@v4.0.0 
         with:
           context: .
           push: true
