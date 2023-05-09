@@ -3,5 +3,10 @@ name: Test reusable workflows
 on: [workflow_dispatch]
 
 jobs:
-  test-release-workflow:
-    uses: remla23-team5/cicd/.github/workflows/release.yaml@main
+  test-publish-docker:
+    uses: remla23-team5/cicd/.github/workflows/publish-docker.yaml@test
+    with:
+      image_name: ${{ github.repository }}
+      version: v1.0.0
+  # test-release-workflow:
+  #   uses: 
