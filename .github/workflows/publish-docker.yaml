@@ -7,6 +7,10 @@ on:
         description: 'Name of the Docker image to build and publish'
         required: true
         type: string
+      ARTIFACT_NAME:
+        description: 'Name of artifact'
+        required: true
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -31,6 +35,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: download-artifact
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: ${{ inputs.ARTIFACT_NAME }}
+          path: ${{ github.workspace }}/artifact/
+
       - name: SemVer
         run: |
           echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.IMAGE_NAME }}:$(git describe --tags $(git rev-list --tags --max-count=1))"
@@ -43,4 +53,4 @@ jobs:
           context: .
           push: true
           tags: ${{ env.GHCR_DOCKER_TAG }}
-          # labels: ${{ steps.meta.outputs.labels }} 
+          buildArgs: ${{ github.workspace }}/artifact/
