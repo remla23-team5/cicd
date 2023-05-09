@@ -45,7 +45,7 @@ jobs:
             #     echo "test: ${{ toJson(github.event) }}"
       
       - name: upload-artifact
-        if: "${{ inputs.ARTIFACT_NAME != '' }}"
+        #        if: "${{ inputs.ARTIFACT_NAME != '' }}"
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{ inputs.ARTIFACT_NAME }}
