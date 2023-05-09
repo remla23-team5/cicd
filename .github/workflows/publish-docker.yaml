@@ -11,6 +11,10 @@ on:
         description: 'Name of artifact'
         required: true
         type: string
+      REPOSITORY:
+        description: 'Name of triggering repository'
+        required: false
+        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -35,18 +39,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: tree
-        run: |
-          echo "[PWD]: $(pwd)"
-          echo "[TREE]: $(tree)"
-          cd ${{ github.workspace }}
-          echo "[TREE]: $(tree -al)"
+            #- name: tree
+            #  run: |
+            #    echo "[PWD]: $(pwd)"
+            #    echo "[TREE]: $(tree)"
+            #    cd ${{ github.workspace }}
+            #    echo "[TREE]: $(tree -al)"
 
       - name: download-artifact
-        uses: actions/download-artifact@v2.1.1
+        if: inputs.REPOSITORY != ''
+        uses: dawidd6/action-download-artifact@v2.27.0
         with:
-          name: ${{ inputs.ARTIFACT_NAME }}
-          path: ${{ github.workspace }}/app.jar
+          workflow: java-ci/build
+          workflow_conclusion: success
+          name: app.jar
+          repo: ${{ inputs.REPOSITORY }}
+          if_no_artifact_found: fail
+
+            # - name: download-artifact
+            #   uses: actions/download-artifact@v2.1.1
+            #   with:
+            #     name: ${{ inputs.ARTIFACT_NAME }}
+            #     path: ${{ github.workspace }}/app.jar
 
       - name: tree
         run: |
