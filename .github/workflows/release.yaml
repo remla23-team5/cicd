@@ -10,15 +10,15 @@ jobs:
   release:
     runs-on: ubuntu-latest
     outputs:
-      version_tag: ${{ steps.versioning.outputs.version_tag }}}
+      version_tag: ${{ steps.versioning.outputs.version_tag }}
     permissions:
       contents: write
       packages: write
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - name: Get tags
+        run: git fetch --tags origin
 
       - name: update semantic version
         id: versioning
