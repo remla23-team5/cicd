@@ -3,7 +3,7 @@ name: Java CI
 on:
   workflow_call:
     inputs:
-      )ARTIFACT_NAME:
+      ARTIFACT_NAME:
         description: 'Name of artifact'
         required: false
         type: string
