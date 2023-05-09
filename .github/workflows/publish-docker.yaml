@@ -41,6 +41,13 @@ jobs:
           name: ${{ inputs.ARTIFACT_NAME }}
           path: ${{ github.workspace }}/artifact/
 
+      - name: tree
+        run: |
+          echo "[PWD]: $(pwd)"
+          echo "[TREE]: $(tree)"
+          cd ${{ github.workspace }}
+          echo "[TREE]: $(tree -al)"
+
       - name: SemVer
         run: |
           echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.IMAGE_NAME }}:$(git describe --tags $(git rev-list --tags --max-count=1))"
@@ -53,4 +60,4 @@ jobs:
           context: .
           push: true
           tags: ${{ env.GHCR_DOCKER_TAG }}
-          buildArgs: ${{ github.workspace }}/artifact/
+          buildArgs: ${{ github.workspace }}/app.jar
