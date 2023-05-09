@@ -38,14 +38,14 @@ jobs:
           USERNAME: ${{ github.actor }}
           PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: echo-artifact-name
-        run: |
-          echo "[ENV_VAR]: ${{ inputs.ARTIFACT_NAME }}"
-          echo "if: ${{ github.event.inputs.ARTIFACT_NAME }}"
-          echo "test: ${{ toJson(github.event) }}"
+            # - name: echo-artifact-name
+            #   run: |
+            #     echo "[ENV_VAR]: ${{ inputs.ARTIFACT_NAME }}"
+            #     echo "if: ${{ github.event.inputs.ARTIFACT_NAME }}"
+            #     echo "test: ${{ toJson(github.event) }}"
       
       - name: upload-artifact
-        if: "${{ github.event.inputs.ARTIFACT_NAME != '' }}"
+        if: "${{ inputs.ARTIFACT_NAME != '' }}"
         uses: actions/upload-artifact@v3.1.2
         with:
           name: ${{ inputs.ARTIFACT_NAME }}
