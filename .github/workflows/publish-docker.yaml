@@ -34,19 +34,19 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: download-artifact
-        uses: actions/download-artifact@v2.1.1
-        with:
-          name: ${{ inputs.ARTIFACT_NAME }}
-          path: ${{ github.workspace }}/artifact/
-
+          
       - name: tree
         run: |
           echo "[PWD]: $(pwd)"
           echo "[TREE]: $(tree)"
           cd ${{ github.workspace }}
           echo "[TREE]: $(tree -al)"
+
+      - name: download-artifact
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: ${{ inputs.ARTIFACT_NAME }}
+          path: ${{ github.workspace }}/artifact/
 
       - name: SemVer
         run: |
