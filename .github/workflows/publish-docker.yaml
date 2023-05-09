@@ -11,10 +11,6 @@ on:
         description: 'Name of artifact'
         required: true
         type: string
-      REPOSITORY:
-        description: 'Name of triggering repository'
-        required: false
-        type: string
 
 env:
   REGISTRY: ghcr.io
@@ -47,13 +43,13 @@ jobs:
             #    echo "[TREE]: $(tree -al)"
 
       - name: download-artifact
-        if: inputs.REPOSITORY != ''
+        if: inputs.IMAGE_NAME == 'remla23-team5/app'
         uses: dawidd6/action-download-artifact@v2.27.0
         with:
           workflow: java-ci/build
           workflow_conclusion: success
           name: app.jar
-          repo: ${{ inputs.REPOSITORY }}
+          repo: ${{ inputs.IMAGE_NAME }}
           if_no_artifact_found: fail
 
             # - name: download-artifact
