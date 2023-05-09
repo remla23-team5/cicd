@@ -46,7 +46,7 @@ jobs:
 
       - name: echo
         run: |
-          echo "[version_tag]: ${{ inputs.version }}"
+          echo "[version_tag]: ${{ inputs.version_tag }}"
 
       # - name: Build and push Docker image
       #   uses: docker/build-push-action@v4.0.0 
@@ -55,6 +55,6 @@ jobs:
       #     push: true
       #     tags: |
       #      ${{ env.REGISTRY }}/${{ inputs.image_name }}:latest,
-      #      ${{ env.REGISTRY }}/${{ inputs.image_name }}:${{ inputs.version }}
+      #      ${{ env.REGISTRY }}/${{ inputs.image_name }}:${{ inputs.version_tag }}
 
           
