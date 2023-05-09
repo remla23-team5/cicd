@@ -3,10 +3,10 @@ name: Java CI
 on:
   workflow_call:
     inputs:
-  		ARTIFACT_NAME:
-  			description: 'Name of artifact'
-  			required: false
-  			type: string
+      ARTIFACT_NAME:
+        description: 'Name of artifact'
+        required: false
+        type: string
 
 jobs:
   build:
@@ -38,10 +38,10 @@ jobs:
           USERNAME: ${{ github.actor }}
           PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
-			- name: upload-artifact
+      - name: upload-artifact
         if: "${{ github.event.inputs.ARTIFACT_NAME != '' }}"
-				uses: actions/upload-artifact@v3.1.2
-  			with:
-    			name: ${{ inputs.ARTIFACT_NAME }}
-    			path: ${{ github.workspace }}/artifact/
-					if-no-files-found: error
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: ${{ inputs.ARTIFACT_NAME }}
+          path: ${{ github.workspace }}/artifact/
+          if-no-files-found: error
