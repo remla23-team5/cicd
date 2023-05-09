@@ -46,8 +46,15 @@ jobs:
         uses: actions/download-artifact@v2.1.1
         with:
           name: ${{ inputs.ARTIFACT_NAME }}
-          path: ${{ github.workspace }}/artifact/
+          path: ${{ github.workspace }}/app.jar
 
+      - name: tree
+        run: |
+          echo "[PWD]: $(pwd)"
+          echo "[TREE]: $(tree)"
+          cd ${{ github.workspace }}
+          echo "[TREE]: $(tree -al)"
+      
       - name: SemVer
         run: |
           echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.IMAGE_NAME }}:$(git describe --tags $(git rev-list --tags --max-count=1))"
