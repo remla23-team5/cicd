@@ -11,11 +11,6 @@ on:
         description: 'Name of the Docker image to build and publish'
         required: true
         type: string
-      artifact_name:
-        description: 'Name of artifact'
-        required: false
-        type: string
-        default: 'app.jar'
 
 env:
   REGISTRY: ghcr.io
@@ -38,14 +33,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: download-artifact
-        if: inputs.image_name == 'remla23-team5/app'
-        uses: dawidd6/action-download-artifact@v2.27.0
-        with:
-          name: ${{ inputs.artifact_name }}
-          search_artifacts: true         
+          password: ${{ secrets.GITHUB_TOKEN }}  
 
       - name: echo
         run: |
