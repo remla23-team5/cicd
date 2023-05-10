@@ -48,13 +48,13 @@ jobs:
         run: |
           echo "[version_tag]: ${{ inputs.version_tag }}"
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v4.0.0 
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: |
-      #      ${{ env.REGISTRY }}/${{ inputs.image_name }}:latest,
-      #      ${{ env.REGISTRY }}/${{ inputs.image_name }}:${{ inputs.version_tag }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4.0.0 
+        with:
+          context: .
+          push: true
+          tags: |
+           ${{ env.REGISTRY }}/${{ inputs.image_name }}:latest,
+           ${{ env.REGISTRY }}/${{ inputs.image_name }}:${{ inputs.version_tag }}
 
           
