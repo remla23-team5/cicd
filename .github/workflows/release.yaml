@@ -10,7 +10,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     outputs:
-      version_tag: ${{ steps.versioning.outputs.version }}
+      version: ${{ steps.versioning.outputs.version }}
     permissions:
       contents: write
       packages: write
