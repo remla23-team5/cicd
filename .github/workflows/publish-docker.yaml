@@ -1,12 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# GitHub recommends pinning actions to a commit SHA.
-# To get a newer version, you will need to update the SHA.
-# You can also reference a tag or branch, but the action may change without warning.
-
 name: Create and publish a Docker image
 
 on: 
@@ -20,6 +11,11 @@ on:
         description: 'Name of the Docker image to build and publish'
         required: true
         type: string
+      artifact_name:
+        description: 'Name of artifact'
+        required: false
+        type: string
+        default: 'app.jar'
 
 env:
   REGISTRY: ghcr.io
@@ -43,6 +39,13 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: download-artifact
+        if: inputs.image_name == 'remla23-team5/app'
+        uses: dawidd6/action-download-artifact@v2.27.0
+        with:
+          name: ${{ inputs.artifact_name }}
+          search_artifacts: true         
 
       - name: echo
         run: |
@@ -50,12 +53,11 @@ jobs:
           echo "[version_tag]: v${{ inputs.version }}"
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4.0.0 
+        uses: docker/build-push-action@v4.0.0
         with:
           context: .
           push: true
           tags: |
            ${{ env.REGISTRY }}/${{ inputs.image_name }}:latest,
            ${{ env.REGISTRY }}/${{ inputs.image_name }}:${{ inputs.version }}
-
-          
+          buildArgs: ${{ github.workspace }}/${{ inputs.artifact_name}}

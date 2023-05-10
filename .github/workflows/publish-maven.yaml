@@ -6,7 +6,7 @@ name: Package and publish to GitHub Packages with Maven
 on:
   workflow_call:
     inputs:
-      version_tag:
+      version:
         description: 'Version tag to use for the package'
         type: string
         default: 'latest'
@@ -17,7 +17,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 19
@@ -26,6 +25,8 @@ jobs:
         java-version: '19'
         distribution: 'temurin'
     - name: Publish package
-      run: mvn --batch-mode deploy
+      run: |
+        mvn -q versions:set -DnewVersion="${{ inputs.version }}"
+        mvn --batch-mode deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
