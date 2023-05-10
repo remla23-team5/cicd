@@ -3,9 +3,10 @@ name: Java CI
 on:
   workflow_call:
     inputs:
-      ARTIFACT_NAME:
+      artifact_name:
         description: 'Name of artifact'
         required: false
+        default: 'app.jar'
         type: string
 
 jobs:
@@ -54,6 +55,6 @@ jobs:
         #        if: "${{ inputs.ARTIFACT_NAME != '' }}"
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: ${{ inputs.ARTIFACT_NAME }}
+          name: ${{ inputs.artifact_name }}
           path: ${{ github.workspace }}/main/target/app-0.0.1-SNAPSHOT.jar
           if-no-files-found: error

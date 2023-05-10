@@ -1,21 +1,22 @@
 name: Increment version and create release
 
 on:
-  push:
-    tags:
-    - '*' 
   workflow_call:
-
+    outputs:
+      version: 
+        value: ${{ jobs.release.outputs.version }}
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.versioning.outputs.version }}
     permissions:
       contents: write
       packages: write
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
 

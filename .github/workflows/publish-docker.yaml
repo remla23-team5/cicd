@@ -3,12 +3,12 @@ name: Create and publish a Docker image
 on: 
   workflow_call:
     inputs:
-      IMAGE_NAME:
-        description: 'Name of the Docker image to build and publish'
+      version:
+        description: 'Semantic version of the Docker image'
         required: true
         type: string
-      ARTIFACT_NAME:
-        description: 'Name of artifact'
+      image_name:
+        description: 'Name of the Docker image to build and publish'
         required: true
         type: string
 
@@ -33,42 +33,19 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: download-artifact
-        if: inputs.IMAGE_NAME == 'remla23-team5/app'
-        uses: dawidd6/action-download-artifact@v2.27.0
-        with:
-          #workflow: java-ci.yaml
-          #repo: ${{ inputs.IMAGE_NAME }}
-          name: app.jar
-          search_artifacts: true          
-            # workflow_conclusion: success
-            #if_no_artifact_found: fail
+          password: ${{ secrets.GITHUB_TOKEN }}  
 
-            # - name: download-artifact
-            #   uses: actions/download-artifact@v2.1.1
-            #   with:
-            #     name: ${{ inputs.ARTIFACT_NAME }}
-            #     path: ${{ github.workspace }}/app.jar
-
-      - name: tree
+      - name: echo
         run: |
-          echo "[PWD]: $(pwd)"
-          echo "[TREE]: $(tree)"
-          cd ${{ github.workspace }}
-          echo "[TREE]: $(tree -al)"
-      
-      - name: SemVer
-        run: |
-          echo "[semver]: ${{ env.REGISTRY }}/${{ inputs.IMAGE_NAME }}:$(git describe --tags $(git rev-list --tags --max-count=1))"
-          echo "GHCR_DOCKER_TAG=${{ env.REGISTRY }}/${{ inputs.IMAGE_NAME }}:$(git describe --tags $(git rev-list --tags --max-count=1))" >> "$GITHUB_ENV"
-          echo "[env var]: ${{ env.GHCR_DOCKER_TAG }}"
+          echo "[version]: ${{ inputs.version }}"
+          echo "[version_tag]: v${{ inputs.version }}"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0
         with:
           context: .
           push: true
-          tags: ${{ env.GHCR_DOCKER_TAG }}
-          buildArgs: ${{ github.workspace }}/app.jar
+          tags: |
+           ${{ env.REGISTRY }}/${{ inputs.image_name }}:latest,
+           ${{ env.REGISTRY }}/${{ inputs.image_name }}:${{ inputs.version }}
+          buildArgs: ${{ github.workspace }}/${{ inputs.artifact_name}}
