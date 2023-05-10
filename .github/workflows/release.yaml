@@ -3,14 +3,14 @@ name: Increment version and create release
 on:
   workflow_call:
     outputs:
-      version_tag: 
-        value: ${{ jobs.release.outputs.version_tag }}
+      version: 
+        value: ${{ jobs.release.outputs.version }}
 
 jobs:
   release:
     runs-on: ubuntu-latest
     outputs:
-      version_tag: ${{ steps.versioning.outputs.version_tag }}
+      version_tag: ${{ steps.versioning.outputs.version }}
     permissions:
       contents: write
       packages: write
