@@ -1,4 +1,4 @@
-name: Increment version and create release
+name: Snapshot
 
 on:
   push
@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: main branch update semantic version
+      - name: update semantic version
         id: versioning
         uses: PaulHatch/semantic-version@v5.0.3
         with:
