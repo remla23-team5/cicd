@@ -38,8 +38,8 @@ jobs:
           skipIfReleaseExists: true 
 
       - name: feature branch semver
+        if: github.ref != 'refs/heads/main' && startsWith('snapshot:', ${{ github.event.head_commit.message }})
         id: snapshot
-        if: github.ref != 'refs/heads/main' && startsWith("snapshot: ", ${{ github.event.head_commit.message }})
         uses: ncipollo/release-action@v1.12.0
         with:
           tag: ${{ steps.versioning.outputs.previous_version }}-SNAPSHOT
