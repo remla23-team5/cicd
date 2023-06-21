@@ -1,13 +1,10 @@
 name: Increment version and create release
 
 on:
-  workflow_call:
-    outputs:
-      version: 
-        value: ${{ jobs.release.outputs.version }}
+  push
 
 jobs:
-  release:
+  snapshot:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.versioning.outputs.version }}
@@ -30,9 +27,10 @@ jobs:
           minor_pattern: "feature:"
           version_format: "${major}.${minor}.${patch}"
     
-      - name: main branch tag and create release
-        if: github.ref == 'refs/heads/main'
+      - name: feature branch semver
+        if: github.ref != 'refs/heads/main' && startsWith('snapshot:', ${{ github.event.head_commit.message }})
+        id: snapshot
         uses: ncipollo/release-action@v1.12.0
         with:
-          tag: ${{ steps.versioning.outputs.version_tag }}
-          skipIfReleaseExists: true 
+          tag: ${{ steps.versioning.outputs.previous_version }}-SNAPSHOT
+          skipIfReleaseExists: false
