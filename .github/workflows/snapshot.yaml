@@ -32,7 +32,6 @@ jobs:
     
       - name: create normal release
         if: endsWith(github.ref, 'master') == true
-        id: snapshot
         uses: ncipollo/release-action@v1.12.0
         with:
           tag: v${{ env.version }}
@@ -41,7 +40,6 @@ jobs:
 
       - name: create snapshot release
         if: endsWith(github.ref, 'master') == false
-        id: snapshot
         uses: ncipollo/release-action@v1.12.0
         with:
           tag: v${{ env.version }}-SNAPSHOT
