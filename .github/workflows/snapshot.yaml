@@ -1,7 +1,8 @@
 name: Snapshot
 
 on:
-  push
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
 
 jobs:
   snapshot:
@@ -12,25 +13,37 @@ jobs:
       contents: write
       packages: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: update semantic version
-        id: versioning
-        uses: PaulHatch/semantic-version@v5.0.3
-        with:
-          branch: main
-          tag_prefix: "v"
-          major_pattern: "breaking change:"
-          minor_pattern: "feature:"
-          version_format: "${major}.${minor}.${patch}"
+      - name: Parse version info from tag
+        run: |
+          # GITHUB_REF is like refs/tags/v2.3.5, so strip the first 11 chars
+          VERSION=${GITHUB_REF:11}
+          MAJOR=`echo "$VERSION" | cut -d . -f 1`
+          MINOR=`echo "$VERSION" | cut -d . -f 2`
+          PATCH=`echo "$VERSION" | cut -d . -f 3`
+          echo "version=$VERSION" >> $GITHUB_ENV
+          echo "version_major=$MAJOR" >> $GITHUB_ENV
+          echo "version_minor=$MINOR" >> $GITHUB_ENV
+          echo "version_patch=$PATCH" >> $GITHUB_ENV
     
-      - name: feature branch semver
-        if: github.ref != 'refs/heads/main' && startsWith('snapshot:', ${{ github.event.head_commit.message }})
+      - name: create normal release
+        if: endsWith(github.ref, 'master') == true
         id: snapshot
         uses: ncipollo/release-action@v1.12.0
         with:
-          tag: ${{ steps.versioning.outputs.previous_version }}-SNAPSHOT
+          tag: v${{ env.version }}
+          allowUpdates: false
+          skipIfReleaseExists: true
+
+      - name: create snapshot release
+        if: endsWith(github.ref, 'master') == false
+        id: snapshot
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          tag: v${{ env.version }}-SNAPSHOT
+          allowUpdates: true
           skipIfReleaseExists: false
