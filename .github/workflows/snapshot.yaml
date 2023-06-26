@@ -31,7 +31,7 @@ jobs:
           echo "version_patch=$PATCH" >> $GITHUB_ENV
     
       - name: create normal release
-        if: endsWith(github.ref, 'master') == true
+        if: endsWith(github.ref, 'main') == true
         uses: ncipollo/release-action@v1.12.0
         with:
           tag: v${{ env.version }}
@@ -39,7 +39,7 @@ jobs:
           skipIfReleaseExists: true
 
       - name: create snapshot release
-        if: endsWith(github.ref, 'master') == false
+        if: endsWith(github.ref, 'main') == false
         uses: ncipollo/release-action@v1.12.0
         with:
           tag: v${{ env.version }}-SNAPSHOT
