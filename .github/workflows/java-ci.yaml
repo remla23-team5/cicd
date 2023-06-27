@@ -24,17 +24,18 @@ jobs:
         with:
           java-version: '19'
           distribution: 'temurin'
+          cache: maven
 
-      - name: checkout-cicd
-        uses: actions/checkout@v3
-        with:
-          repository: remla23-team5/cicd
-          path: cicd
+      # - name: checkout-cicd
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: remla23-team5/cicd
+      #     path: cicd
 
-      - name: build-with-maven
+      - name: Build & Test with Maven
         run: |
           cd main
-          mvn --batch-mode --update-snapshots clean package -DskipTests
+          mvn --batch-mode --update-snapshots clean package
         env:
           USERNAME: ${{ github.actor }}
           PASSWORD: ${{ secrets.GITHUB_TOKEN }}
@@ -45,16 +46,16 @@ jobs:
             #     echo "if: ${{ github.event.inputs.ARTIFACT_NAME }}"
             #     echo "test: ${{ toJson(github.event) }}"
 
-      - name: tree-artifacts
-        run: |
-          echo "[TREE]: $(tree)"
-          echo "[PWD]: $(pwd)"
-          echo "[TREE]: $(tree -al)"
+      # - name: tree-artifacts
+      #   run: |
+      #     echo "[TREE]: $(tree)"
+      #     echo "[PWD]: $(pwd)"
+      #     echo "[TREE]: $(tree -al)"
 
-      - name: upload-artifact
-        #        if: "${{ inputs.ARTIFACT_NAME != '' }}"
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: ${{ inputs.artifact_name }}
-          path: ${{ github.workspace }}/main/target/app-0.0.1-SNAPSHOT.jar
-          if-no-files-found: error
+      # - name: upload-artifact
+      #   #        if: "${{ inputs.ARTIFACT_NAME != '' }}"
+      #   uses: actions/upload-artifact@v3.1.2
+      #   with:
+      #     name: ${{ inputs.artifact_name }}
+      #     path: ${{ github.workspace }}/main/target/app-0.0.1-SNAPSHOT.jar
+      #     if-no-files-found: error

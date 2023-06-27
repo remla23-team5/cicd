@@ -1,4 +1,4 @@
-name: Increment version and create release
+name: Tag and create new release
 
 on:
   workflow_call:
@@ -26,13 +26,12 @@ jobs:
         with:
           branch: main
           tag_prefix: "v"
-          major_pattern: "breaking change:"
-          minor_pattern: "feature:"
+          major_pattern: "(MINOR)"
+          minor_pattern: "(MAJOR)"
           version_format: "${major}.${minor}.${patch}"
     
-      - name: main branch tag and create release
-        if: github.ref == 'refs/heads/main'
+      - name: tag and create release
         uses: ncipollo/release-action@v1.12.0
         with:
           tag: ${{ steps.versioning.outputs.version_tag }}
-          skipIfReleaseExists: true 
+          skipIfReleaseExists: true

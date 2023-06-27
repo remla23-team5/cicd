@@ -1,13 +1,16 @@
-name: Snapshot
+name: Tag and create snapshot release
 
 on:
-  push
+  workflow_call:
+    outputs:
+      version: 
+        value: ${{ jobs.snapshot.outputs.previous_version }}-SNAPSHOT
 
 jobs:
   snapshot:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.versioning.outputs.version }}
+      version: ${{ steps.versioning.outputs.previous_version }}
     permissions:
       contents: write
       packages: write
@@ -28,7 +31,6 @@ jobs:
           version_format: "${major}.${minor}.${patch}"
     
       - name: feature branch semver
-        if: github.ref != 'refs/heads/main' && startsWith('snapshot:', ${{ github.event.head_commit.message }})
         id: snapshot
         uses: ncipollo/release-action@v1.12.0
         with:
