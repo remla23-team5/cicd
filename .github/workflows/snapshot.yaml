@@ -20,7 +20,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: update semantic version
+      - name: Get current version
         id: versioning
         uses: PaulHatch/semantic-version@v5.0.3
         with:
@@ -29,10 +29,7 @@ jobs:
           minor_pattern: "(MINOR)"
           version_format: "${major}.${minor}.${patch}"
 
-      - name: reset git auth
-        run: |
-          git config --unset http.https://github.com/.extraheader
-      - name: feature branch semver
+      - name: Tag & Create snapshot release
         id: snapshot
         uses: ncipollo/release-action@v1.12.0
         with:
