@@ -44,7 +44,10 @@ jobs:
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           version_format: "${major}.${minor}.${patch}"
-    
+
+      - name: reset git auth
+        run: |
+          git config --unset http.https://github.com/.extraheader
       - name: feature branch semver
         id: snapshot
         uses: ncipollo/release-action@v1.12.0
