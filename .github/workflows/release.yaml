@@ -34,3 +34,4 @@ jobs:
         with:
           tag: v${{ steps.versioning.outputs.version_tag }}
           skipIfReleaseExists: true
+          token: ${{ secrets.PAT }}

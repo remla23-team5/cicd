@@ -51,3 +51,4 @@ jobs:
         with:
           tag: v${{ steps.versioning.outputs.previous_version }}-SNAPSHOT
           skipIfReleaseExists: false
+          token: ${{ secrets.PAT }}
