@@ -20,14 +20,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Echo repository
+        run: |
+          echo "${{ github.repository }}" >> $GITHUB_OUTPUT
+
       - name: update semantic version
         id: versioning
         uses: PaulHatch/semantic-version@v5.0.3
         with:
-          branch: main
           tag_prefix: "v"
-          major_pattern: "breaking change:"
-          minor_pattern: "feature:"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
           version_format: "${major}.${minor}.${patch}"
     
       - name: feature branch semver
