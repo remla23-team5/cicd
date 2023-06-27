@@ -4,7 +4,7 @@ on:
   workflow_call:
     outputs:
       version: 
-        value: ${{ jobs.snapshot.outputs.previous_version }}-SNAPSHOT
+        value: ${{ jobs.snapshot.outputs.version }}-SNAPSHOT
 
 jobs:
   snapshot:
@@ -19,22 +19,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Echo repository
-        run: |
-          echo "${{ github.repository }}"
-      
-      - name: Parse version info from tag
-        run: |
-          # GITHUB_REF is like refs/tags/v2.3.5, so strip the first 11 chars
-          VERSION=${GITHUB_REF:11}
-          MAJOR=`echo "$VERSION" | cut -d . -f 1`
-          MINOR=`echo "$VERSION" | cut -d . -f 2`
-          PATCH=`echo "$VERSION" | cut -d . -f 3`
-          echo "version=$VERSION" >> $GITHUB_ENV
-          echo "version_major=$MAJOR" >> $GITHUB_ENV
-          echo "version_minor=$MINOR" >> $GITHUB_ENV
-          echo "version_patch=$PATCH" >> $GITHUB_ENV
 
       - name: update semantic version
         id: versioning
