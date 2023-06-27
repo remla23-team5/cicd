@@ -11,6 +11,11 @@ on:
         description: 'Name of the Docker image to build and publish'
         required: true
         type: string
+      publish_latest:
+        description: 'Also publish the image with the "latest" tag'
+        required: false
+        default: false
+        type: boolean
 
 env:
   REGISTRY: ghcr.io
