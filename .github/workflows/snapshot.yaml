@@ -52,4 +52,5 @@ jobs:
           token: ${{ secrets.PAT }}
           tag: v${{ steps.versioning.outputs.previous_version }}-SNAPSHOT
           skipIfReleaseExists: false
+          allowUpdates: true
           
