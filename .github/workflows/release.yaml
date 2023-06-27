@@ -24,7 +24,6 @@ jobs:
         id: versioning
         uses: PaulHatch/semantic-version@v5.0.3
         with:
-          branch: main
           tag_prefix: "v"
           major_pattern: "(MINOR)"
           minor_pattern: "(MAJOR)"
@@ -33,5 +32,5 @@ jobs:
       - name: tag and create release
         uses: ncipollo/release-action@v1.12.0
         with:
-          tag: ${{ steps.versioning.outputs.version_tag }}
+          tag: v${{ steps.versioning.outputs.version_tag }}
           skipIfReleaseExists: true

@@ -34,5 +34,5 @@ jobs:
         id: snapshot
         uses: ncipollo/release-action@v1.12.0
         with:
-          tag: ${{ steps.versioning.outputs.previous_version }}-SNAPSHOT
+          tag: v${{ steps.versioning.outputs.previous_version }}-SNAPSHOT
           skipIfReleaseExists: false
