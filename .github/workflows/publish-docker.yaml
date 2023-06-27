@@ -53,4 +53,4 @@ jobs:
           tags: |
            ${{ env.REGISTRY }}/${{ inputs.image_name }}:latest,
            ${{ env.REGISTRY }}/${{ inputs.image_name }}:${{ inputs.version }}
-          buildArgs: ${{ github.workspace }}/${{ inputs.image_name}}
+          build-args: ${{ github.workspace }}/${{ inputs.image_name}}
