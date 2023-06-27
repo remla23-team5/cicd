@@ -7,10 +7,6 @@ on:
         description: 'Semantic version of the Docker image'
         required: true
         type: string
-      image_name:
-        description: 'Name of the Docker image to build and publish'
-        required: true
-        type: string
       publish_latest:
         description: 'Also publish the image with the "latest" tag'
         required: false
@@ -51,6 +47,6 @@ jobs:
           context: .
           push: true
           tags: |
-           ${{ env.REGISTRY }}/${{ inputs.image_name }}:latest,
-           ${{ env.REGISTRY }}/${{ inputs.image_name }}:${{ inputs.version }}
-          build-args: ${{ github.workspace }}/${{ inputs.image_name}}
+           ${{ env.REGISTRY }}/${{ github.repository }}:${{ inputs.version }},
+           ${{ env.REGISTRY }}/${{ github.repository }}:latest
+          build-args: ${{ github.workspace }}/${{ github.repository }}
