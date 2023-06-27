@@ -49,7 +49,7 @@ jobs:
         id: snapshot
         uses: ncipollo/release-action@v1.12.0
         with:
-          token: "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"
+          token: "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"
           tag: v${{ steps.versioning.outputs.previous_version }}-SNAPSHOT
           skipIfReleaseExists: false
           
